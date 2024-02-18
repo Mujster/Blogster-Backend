@@ -1,6 +1,9 @@
 const express = require('express');
 const app=express.Router(); 
 const User = require('../models/userModel');
+const mime=require('mime-types');
+
+const validImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
 
 //get all users
 app.get('/get-user',async(req,res)=>{
@@ -209,7 +212,30 @@ app.post('/unblock-user/:userId',async(req,res)=>{
     }
 });
 
-//change images
+//change profile image
 app.patch('/add-image/:userId',async(req,res)=>{
-   //To Be Implemented 
+   try{
+      const uid=req.params.userId;
+      const imagepath='D:/Complete Web Development/Blogging/backend/p.jpg';
+      const imageBuffer=fs.readFileSync(imagepath);
+      //const imageType = imagepath.split('.').pop().toLowerCase();
+      const imageType=mime.lookup(imagepath);
+      const user=await User.findOne({_id:uid});
+      if(!user){
+          res.status(404).json("User Not Found");
+      }
+      else{
+            if(!validImageFormats.includes(imageType)){
+                return res.status(400).json("Invalid Image Format");
+            }
+            user.image=imageBuffer;
+            user.imageType=imageType;
+            await user.save();
+            res.status(200).json("Image Added Successfully");
+      }
+   }
+   catch(err){
+    console.log(err);
+    res.status(400).json(err);
+   }
 });
