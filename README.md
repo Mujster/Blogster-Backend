@@ -19,3 +19,8 @@ Before running Blogster Backend locally, ensure you have the following installed
 
 `git clone https://github.com/your-username/blogster.git`
 
+### Next Update
+
+Modify response in next update
+
+
