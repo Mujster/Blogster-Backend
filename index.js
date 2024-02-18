@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes=require('./routes/authRoutes')
 const blogRoutes = require('./routes/blogRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 mongoose.connect('mongodb://127.0.0.1/Blogster', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log("Connected to MongoDB")})
@@ -22,3 +23,4 @@ app.listen(3001, () => {
 
 app.use('/', authRoutes);
 app.use('/', blogRoutes);
+app.use('/', userRoutes);
