@@ -46,7 +46,7 @@ app.post('/register',async(req,res)=>{
                 else{
                     user.set('password',hash);
                     const token=jwt.sign({email:email},SECRETKEY,{expiresIn:'1h'});
-                    const verifyLink=`http://localhost:3001/blogster/verify-email?token=${token}`;
+                    const verifyLink=`https://blogster-backend.vercel.app/blogster/verify-email?token=${token}`;
                     const activationToken={verificationLink:verifyLink,expiryTime:Date.now()+5};
                     const mailOptions={
                         from:'mmujtaba.ahmad@yahoo.com',
