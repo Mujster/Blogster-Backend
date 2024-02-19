@@ -92,6 +92,10 @@ app.post('/authenticate',async(req,res)=>{
                 res.status(400).json("User does not exist");
             }
             else{
+                if(existingUser.isActive===false){
+                    return res.status(400).json("Account Not Verified Yet. Please Verify Your Email First.");
+                }
+                else{
                 bcryptjs.compare(password,existingUser.password,(err,result)=>{
                     if(err){
                         res.status(400).json("Error in comparing password");
@@ -110,7 +114,8 @@ app.post('/authenticate',async(req,res)=>{
                     }
                 });
                 //localStorage.setItem('token',token);
-            }
+               }
+           }
         }
     }
     catch(err){
