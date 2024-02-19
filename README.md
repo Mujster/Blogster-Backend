@@ -19,10 +19,6 @@ Before running Blogster Backend locally, ensure you have the following installed
 
 `git clone https://github.com/your-username/blogster.git`
 
-### Next Update
-
-Modify response in next update
-
 ### Registration
 #### Email Verification Flow:
 
@@ -44,3 +40,5 @@ Extract the token from the link or the code from the email.
 Compare the received token with the one stored during user registration.
 If they match, mark the user's email as verified in your database.
 
+### Next Update
+-> `Modify Responses and Response Time`
