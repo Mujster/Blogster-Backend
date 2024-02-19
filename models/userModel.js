@@ -1,4 +1,10 @@
 const mongoose=require('mongoose');
+
+const activationTokenSchema=new mongoose.Schema({
+     verificationLink:{type:String,required:true},
+     expiryTime:{type:Date,required:true,expires:'5m'}
+});
+
 const userSchema=new mongoose.Schema({  
      fullname:{ type: String, required: true },
      email:{ type: String, required: true,unique:true },
@@ -7,7 +13,9 @@ const userSchema=new mongoose.Schema({
      followers:[{user:{ type:mongoose.Schema.Types.ObjectId, ref:'User'}}],
      following:[{user:{ type:mongoose.Schema.Types.ObjectId, ref:'User'}}],
      image:{type:Buffer},
-     BlockedUsers:[{user:{ type:mongoose.Schema.Types.ObjectId, ref:'User'}}]
+     BlockedUsers:[{user:{ type:mongoose.Schema.Types.ObjectId, ref:'User'}}],
+     isActive:{type:Boolean,default:false},
+     activationToken:{type:activationTokenSchema}
 });
 
 module.exports=mongoose.model('User',userSchema);
