@@ -6,7 +6,7 @@ const authRoutes=require('./routes/authRoutes')
 const blogRoutes = require('./routes/blogRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-mongoose.connect('mongodb://127.0.0.1/Blogster', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://admin:admin@blogster.y53rufh.mongodb.net/', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log("Connected to MongoDB")})
 .catch((err) => {console.log("Failed to connect to MongoDB", err)});    
 
