@@ -23,4 +23,24 @@ Before running Blogster Backend locally, ensure you have the following installed
 
 Modify response in next update
 
+### Registration
+#### Email Verification Flow:
+
+`User Registration:`
+When a user registers, generate a unique verification token for that user.
+
+`Send Verification Email:`
+Use the Gmail API to send an email to the user's registered email address.
+Include the verification token in the email body or as a link.
+
+`Verification Token:`
+The email should contain instructions for the user to click on the verification link or enter the verification code.
+
+`Verification Endpoint:`
+Set up an endpoint in your application to handle the verification process.
+Extract the token from the link or the code from the email.
+
+`Verify Email:`
+Compare the received token with the one stored during user registration.
+If they match, mark the user's email as verified in your database.
 
