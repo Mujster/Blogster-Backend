@@ -44,7 +44,7 @@ If they match, mark the user's email as verified in your database.
 -> `Modify Responses and Response Time`
 
 ### Accepting Donations For Paid Services
-
+#### Currently:
 `Using MongoDb Atlas Free Tier`
 <br/>
 `Need Hosting Funds`
