@@ -5,6 +5,10 @@ const bcryptjs=require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer=require('nodemailer');
 const dotenv = require('dotenv');
+const VerifyToken=require('../middlewares/authentication');
+const cookie = require('cookie');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 const result = dotenv.config();
 
 if (result.error) {
@@ -46,10 +50,17 @@ app.post('/register',async(req,res)=>{
                 else{
                     user.set('password',hash);
                     const token=jwt.sign({email:email},SECRETKEY,{expiresIn:'1h'});
-                    const verifyLink=`https://blogster-backend.vercel.app/blogster/verify-email?token=${token}`;
-                    const activationToken={verificationLink:verifyLink,expiryTime:Date.now()+5};
+                    res.setHeader('Set-Cookie',cookie.serialize('token',token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'strict',
+                        maxAge: 60*60,
+                        path: '/',
+                    }));
+                    const verifyLink=`http://localost:3001/blogster/verify-email?token=${token}`;
+                    const activationToken={verificationLink:verifyLink};
                     const mailOptions={
-                        from:'mmujtaba.ahmad@yahoo.com',
+                        from:'<noreply>activationmail.blogster@gmail.com',
                         to:email,
                         subject:'Blogster Email Verification',
                         html: `<p>Please click on the following button to verify your email address:</p>
@@ -69,10 +80,9 @@ app.post('/register',async(req,res)=>{
                     user.set('token',token);
                     user.set('activationToken',activationToken);
                     await user.save().then(()=>console.log("User Registered Successfully")).catch((err)=>console.log("Error in registering user",err));     
+                    res.status(200).json("User Registered Successfully");
                 }
             });
-
-            res.status(200).json("User Registered Successfully");
         }
     }
     catch(err){
@@ -80,7 +90,7 @@ app.post('/register',async(req,res)=>{
         res.status(400).json(err);
     }
 });
-app.post('/authenticate',async(req,res)=>{
+app.post('/authenticate',VerifyToken,async(req,res)=>{
     try{
         const {email,password}=req.body;
         if(!email||!password){
@@ -92,7 +102,7 @@ app.post('/authenticate',async(req,res)=>{
                 res.status(400).json("User does not exist");
             }
             else{
-                if(existingUser.isActive===false){
+                if(!existingUser.isActive){
                     return res.status(400).json("Account Not Verified Yet. Please Verify Your Email First.");
                 }
                 else{
@@ -103,14 +113,23 @@ app.post('/authenticate',async(req,res)=>{
                     }
                     else{
                         if(result){
-                            res.status(200).json("User Authenticated Successfully");
                             const token=jwt.sign({email:email},SECRETKEY,{expiresIn:'1h'});
                             existingUser.updateOne({$set:{token:token}});
                             existingUser.save();
+                            res.setHeader('Set-Cookie',cookie.serialize('token',token, {
+                                httpOnly: true,
+                                secure: process.env.NODE_ENV === 'production',
+                                sameSite: 'strict',
+                                maxAge: 60*60,
+                                path: '/',
+                            }));
+                            res.status(200).json("User Authenticated Successfully");
+                            return;
                         }
                         else{
-                            res.status(400).json("Invalid Password");
+                            return res.status(400).json("Invalid Password");
                         }
+                        return res.status(200).json("User Authenticated Successfully");
                     }
                 });
                 //localStorage.setItem('token',token);
@@ -145,5 +164,30 @@ app.get('/blogster/verify-email',async(req,res)=>{
     }
 });
 
+app.post('/logout',VerifyToken,async(req,res)=>{
+    try{
+        const token=req.cookies.token;
+        const user=await User.findOne({token:token});
+        if(!user){
+            res.status(404).json("User Not Found");
+        }
+        else{
+            user.set('token','');
+            user.save();
+            res.setHeader('Set-Cookie',cookie.serialize('token','', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: -1,
+                path: '/',
+            }));
+            res.status(200).json("User Logged Out Successfully");
+        }
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json(err);
+    }
+});
 
 module.exports = app;

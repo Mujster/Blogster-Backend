@@ -1,8 +1,7 @@
 const mongoose=require('mongoose');
 
 const activationTokenSchema=new mongoose.Schema({
-     verificationLink:{type:String,required:true},
-     expiryTime:{type:Date,required:true,expires:'5m'}
+          verificationLink: { type: String, required: true }
 });
 
 const userSchema=new mongoose.Schema({  
