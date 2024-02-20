@@ -40,6 +40,9 @@ Extract the token from the link or the code from the email.
 Compare the received token with the one stored during user registration.
 If they match, mark the user's email as verified in your database.
 
+### Current 
+-> `Add Cookies for login`
+
 ### Next Update
 -> `Modify Responses and Response Time`
 
