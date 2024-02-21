@@ -42,7 +42,7 @@ If they match, mark the user's email as verified in your database.
 
 ### Current 
 -> `Add Cookies for login`
-
+-> `Add Google Login to allow users to login using their google account`
 ### Next Update
 -> `Modify Responses and Response Time`
 -> `Next Update soon`
