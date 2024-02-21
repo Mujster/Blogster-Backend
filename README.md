@@ -45,6 +45,7 @@ If they match, mark the user's email as verified in your database.
 
 ### Next Update
 -> `Modify Responses and Response Time`
+-> `Next Update soon`
 
 ### Accepting Donations For Paid Services
 #### Currently:
