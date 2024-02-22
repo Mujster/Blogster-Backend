@@ -1,21 +1,21 @@
 const express = require('express');
-const app=express;
-const {google}=require('googleapis');
-const dotenv=require('dotenv');
+const app = express.Router();
+const { google } = require('googleapis');
+const dotenv = require('dotenv');
 dotenv.config();
 
 const scopes = [
-    'https://www.googleapis.com/auth'
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
 ];
 
 const Oauth2Client = new google.auth.OAuth2(
-    '932534104608-duj5u9fdvc942u18u1vhr8vm2v3pqq35.apps.googleusercontent.com',
-    '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',
-    'http://localhost:3001/google/redirect',
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URI
 );
 
-
-app.get('/check', (req, res) => {
+app.get('/google-signin', (req, res) => {
     const url = Oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: scopes,
@@ -31,7 +31,4 @@ app.get('/google/redirect', async (req, res) => {
     res.send({ message: 'Successful Login' });
 });
 
-
-app.listen(3000,()=>{console.log("jfowf")});
-
-module.exports=app;
+module.exports = app;

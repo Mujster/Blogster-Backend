@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes=require('./routes/authRoutes')
 const blogRoutes = require('./routes/blogRoutes');
 const userRoutes = require('./routes/userRoutes');
+const googleRoutes=require('./routes/googleAuth');
 
 mongoose.connect('mongodb+srv://admin:admin@blogster.y53rufh.mongodb.net/', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log("Connected to MongoDB")})
@@ -24,3 +25,4 @@ app.listen(3001, () => {
 app.use('/', authRoutes);
 app.use('/', blogRoutes);
 app.use('/', userRoutes);
+app.use('/', googleRoutes);
