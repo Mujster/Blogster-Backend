@@ -6,8 +6,12 @@ const authRoutes=require('./routes/authRoutes')
 const blogRoutes = require('./routes/blogRoutes');
 const userRoutes = require('./routes/userRoutes');
 const googleRoutes=require('./routes/googleAuth');
+const dotenv = require('dotenv');
+dotenv.config();
+const MongoDBUSER=process.env.MongoDBUSER;
+const MongoDBKEY=process.env.MongoDBKEY;
 
-mongoose.connect('mongodb+srv://admin:admin@blogster.y53rufh.mongodb.net/', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(`mongodb+srv://${MongoDBUSER}:${MongoDBKEY}@blogster.y53rufh.mongodb.net/`, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log("Connected to MongoDB")})
 .catch((err) => {console.log("Failed to connect to MongoDB", err)});    
 
