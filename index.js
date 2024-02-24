@@ -10,8 +10,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 const MongoDBUSER=process.env.MongoDBUSER;
 const MongoDBKEY=process.env.MongoDBKEY;
-
-mongoose.connect(`mongodb+srv://${MongoDBUSER}:${MongoDBKEY}@blogster.y53rufh.mongodb.net/`, {useNewUrlParser: true, useUnifiedTopology: true})
+const Organization=process.env.Organization;
+mongoose.connect(`mongodb+srv://${MongoDBUSER}:${MongoDBKEY}@${Organization}.y53rufh.mongodb.net/`, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log("Connected to MongoDB")})
 .catch((err) => {console.log("Failed to connect to MongoDB", err)});    
 
