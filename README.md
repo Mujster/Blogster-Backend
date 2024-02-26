@@ -19,6 +19,8 @@ Before running Blogster Backend locally, ensure you have the following installed
 
 `git clone https://github.com/your-username/blogster.git`
 
+visit `https://blogster-backend.vercel.app/` for API
+ 
 ### Registration
 #### Email Verification Flow:
 

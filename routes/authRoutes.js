@@ -141,7 +141,6 @@ app.post('/authenticate',VerifyToken,async(req,res)=>{
         res.status(400).json(err);
     }
 });
-
 app.get('/blogster/verify-email',async(req,res)=>{
     try{
         const token=req.query.token;
@@ -163,7 +162,6 @@ app.get('/blogster/verify-email',async(req,res)=>{
         res.status(400).json(err);
     }
 });
-
 app.post('/logout',VerifyToken,async(req,res)=>{
     try{
         const token=req.cookies.token;
